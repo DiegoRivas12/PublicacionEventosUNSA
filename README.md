@@ -11,7 +11,7 @@ Ejemplo controlesRivas/main.py (En este ejemplo se usa el estilo un o y dos)
 
 
 
-`
+```
 @app.route('/showSignin')
 def showSignin():
     if session.get('user'):#Si la sesion del usuario sigue activa ingresamos
@@ -38,7 +38,7 @@ def logout():
     session.pop('user', None)
     return redirect('/')
 
-`
+```
 
 
 En el tercer estilo, llamado Pipeline, las funciones
