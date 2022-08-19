@@ -71,6 +71,7 @@ SELECT* FROM UsuarioNormal;
 SELECT esNormal(1);
 
 /* Damos un usuario y validamos */
+
 USE UNSA;
 #DROP PROCEDURE validarLogin;
 DELIMITER $$
