@@ -43,12 +43,19 @@ luego se convierte en una larga cadena de llamadas a funciones.
 Ejemplo controlesRivas/proce.sql (En este ejemplo se usa el estilo tres)
 
 USE UNSA;
+
 #DROP FUNCTION esNormal;
+
 DELIMITER $$
+
 create definer=`root`@`localhost` function esNormal(
+
 _id_usuario INT)RETURNS INT DETERMINISTIC
+
 begin
+
     DECLARE bandera BOOL;
+    
     DECLARE aux INT;
     
     SET bandera = (SELECT COUNT(c.id_usuario) FROM UsuarioNormal c 
@@ -61,23 +68,22 @@ begin
      END IF;
     
     RETURN aux;
+    
 end$$
+
 DELIMITER ;
-
-#DROP FUNCTION esCliente;
-USE UNSA;
-SELECT* FROM Usuario;
-SELECT* FROM UsuarioNormal;
-SELECT esNormal(1);
-
-/* Damos un usuario y validamos */
 
 USE UNSA;
 #DROP PROCEDURE validarLogin;
+
+
 DELIMITER $$
 create definer=`root`@`localhost` procedure validarLogin(
+
 IN n_usuario varchar(30))
+
 begin
+
     SELECT p.id_usuario id_usuario, p.Nombre Nombre, p.ApellidoPaterno, p.ApellidoMaterno, 
            p.Correo Correo,p.Telefono Telefono, p._usuario _usuario,
            p.contra contra, esNormal(p.id_usuario) sies
@@ -85,4 +91,6 @@ begin
     ON p._usuario = n_usuario;
     
 end$$
+
 DELIMITER ;
+
