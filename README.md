@@ -1,3 +1,5 @@
+Estilos de programacion:
+
 El primer estilo es Monolítico, donde el programa es
 no se subdivide en funciones. En cambio, la lógica es
 solo en una larga secuencia de declaraciones.
@@ -6,19 +8,26 @@ El segundo estilo Cookbook, la lógica se divide
 en funciones, pero todas las funciones operan en compartido
 variables globales.
 
-Ejemplo controlesRivas/main.py (En este ejemplo se usa el estilo un o y dos)
+Clean code:
+Cometarios, sangria consistente en las funciones, evitamos comentarios obvios, agrupamos los codigos por secciones de acuerdo al proposito del codigo y para el esquema de nomencaltura coherente usamos camelcase
 
-
+Ejemplo controlesRivas/main.py (En este ejemplo se usa el estilo uno y dos)
 
 
 ```
+#Seccion de control de sesiones
 @app.route('/showSignin')
 def showSignin():
     if session.get('user'):#Si la sesion del usuario sigue activa ingresamos
         return render_template('usuarioNormal.html')
     else:
         return render_template('signin.html')#Ingresamois con nuestro usuario
+@app.route('/logout')
+def logout():
+    session.pop('user', None)
+    return redirect('/')
 
+#Seccion tipo de usuario
 @app.route('/usuarioNormal')
 def usuarioNormal():
     if session.get('user'):
@@ -33,10 +42,7 @@ def usuarioVip():
     else:
         return render_template('error.html',error = 'Acceso No Autorizado')
 
-@app.route('/logout')
-def logout():
-    session.pop('user', None)
-    return redirect('/')
+
 
 ```
 
@@ -49,21 +55,22 @@ luego se convierte en una larga cadena de llamadas a funciones.
 
 Ejemplo controlesRivas/proce.sql (En este ejemplo se usa el estilo tres)
 ```
+#Seccion para determinar tipo de usuario
 USE UNSA;
-#DROP FUNCTION esNormal;
 DELIMITER $$
+
 create definer=`root`@`localhost` function esNormal(
 _id_usuario INT)RETURNS INT DETERMINISTIC
 begin
 
-    DECLARE bandera BOOL;
+    DECLARE bandera BOOL;#Valor a devolver para verdadero o falso
     
     DECLARE aux INT;
     
     SET bandera = (SELECT COUNT(c.id_usuario) FROM UsuarioNormal c 
         INNER JOIN  Usuario p WHERE c.id_usuario = _id_usuario AND p.id_usuario = c.id_usuario
         GROUP BY c.id_usuario);
-    IF bandera THEN
+    IF bandera THEN 
        SET aux = 1;
 	ELSE
        SET aux = 0;
@@ -75,9 +82,8 @@ end$$
 
 DELIMITER ;
 
+#Seccion para validar los datos e ingreso de sesion
 USE UNSA;
-#DROP PROCEDURE validarLogin;
-
 
 DELIMITER $$
 create definer=`root`@`localhost` procedure validarLogin(
