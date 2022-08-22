@@ -101,3 +101,15 @@ end$$
 DELIMITER ;
 
 ```
+Principios Solid:
+La funcion mostrarFechas solo cumple una funcion (Responsabilidad Unica), La clase Evento no tiene funciones para modificar sus datos (Abierto - cerrado) y la clase evento es abstracta para poder implementar la funcion mostrarFechas en la clase simposio (Inversión de dependencia).
+Archivos simposio.py y evento.py
+```
+from abc import ABC, abstractmethod
+class Evento(ABC):#Clase abstracta
+
+#Esta clase es de evento
+@abstractmethod
+def mostrarFechas(self):
+    print('Fechas:')
+```
